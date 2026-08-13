@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "payment")
-public class Payment {
+public class PaymentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +16,7 @@ public class Payment {
     // One Payment is associated with One User
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private UserEntity user;
 
     @Column(name = "vendor_id")
     private Long vendorId;
@@ -35,7 +35,7 @@ public class Payment {
 
     // Cart has payment_id, so Cart is the owning side
     @OneToOne(mappedBy = "payment")
-    private Cart cart;
+    private CartEntity cart;
 
 
     // Getters and Setters
@@ -48,11 +48,11 @@ public class Payment {
         this.paymentId = paymentId;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
