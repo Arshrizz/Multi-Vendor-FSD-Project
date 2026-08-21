@@ -103,11 +103,11 @@ public class PaymentEntity {
         this.paymentTime = paymentTime;
     }
 
-    public Cart getCart() {
+    public CartEntity getCart() {
         return cart;
     }
 
-    public void setCart(Cart cart) {
+    public void setCart(CartEntity cart) {
         this.cart = cart;
     }
 }
