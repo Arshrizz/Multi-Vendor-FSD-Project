@@ -14,7 +14,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "payment")
-public class Payment {
+public class PaymentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class Payment {
 
     // Cart has payment_id, so Cart is the owning side
     @OneToOne(mappedBy = "payment")
-    private Cart cart;
+    private CartEntity cart;
 
     // Getters and Setters
 
