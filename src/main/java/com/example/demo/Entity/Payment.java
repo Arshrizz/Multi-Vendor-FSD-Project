@@ -1,6 +1,14 @@
 package com.example.demo.Entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -16,7 +24,7 @@ public class Payment {
     // One Payment is associated with One User
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private UserEntity user;
 
     @Column(name = "vendor_id")
     private Long vendorId;
@@ -37,7 +45,6 @@ public class Payment {
     @OneToOne(mappedBy = "payment")
     private Cart cart;
 
-
     // Getters and Setters
 
     public Long getPaymentId() {
@@ -48,11 +55,11 @@ public class Payment {
         this.paymentId = paymentId;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
