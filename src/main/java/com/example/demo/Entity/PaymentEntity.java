@@ -1,6 +1,14 @@
 package com.example.demo.Entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -36,7 +44,6 @@ public class PaymentEntity {
     // Cart has payment_id, so Cart is the owning side
     @OneToOne(mappedBy = "payment")
     private CartEntity cart;
-
 
     // Getters and Setters
 
@@ -96,11 +103,11 @@ public class PaymentEntity {
         this.paymentTime = paymentTime;
     }
 
-    public Cart getCart() {
+    public CartEntity getCart() {
         return cart;
     }
 
-    public void setCart(Cart cart) {
+    public void setCart(CartEntity cart) {
         this.cart = cart;
     }
 }
