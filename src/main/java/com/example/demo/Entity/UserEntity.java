@@ -89,6 +89,51 @@ public class UserEntity {
         this.email = email;
     }
 
+    public String getPhone(){
+        return phone;
+    }
+    
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPasswordHash() {
+        return password_hash;
+    }
+    
+    public void setPasswordHash(String password_hash) {
+        this.password_hash = password_hash;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+    public void setStatus(Boolean status) { this.status = status; }
+
+    public LocalDateTime getCreatedAt() {
+        return created_at;
+    }
+    public void setCreatedAt(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public LocalDate getBday() {
+        return bday;
+    }
+
+    public void setBday(LocalDate bday) {
+        this.bday = bday;
+    }
+
+
     @Override
     public String toString() {
         return "UserEntity{"
