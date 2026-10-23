@@ -42,7 +42,8 @@ public class PaymentEntity {
     private LocalTime paymentTime;
 
     // Cart has payment_id, so Cart is the owning side
-    @OneToOne(mappedBy = "payment")
+    @OneToOne
+    @JoinColumn(name = "cart_id") // Matches the foreign key column in your payment table
     private CartEntity cart;
 
     // Getters and Setters

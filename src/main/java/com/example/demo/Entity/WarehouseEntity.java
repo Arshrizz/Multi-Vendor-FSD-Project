@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,18 +10,23 @@ public class WarehouseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "warehouse_id")
+    @JsonProperty("warehouse_id")
     private Integer warehouse_id;
 
     @Column(name = "product_id", nullable = false)
+    @JsonProperty("product_id")
     private Integer product_id;
 
     @Column(name = "stock_quantity", nullable = false)
+    @JsonProperty("stock_quantity")
     private Integer stock_quantity;
 
     @Column(name = "warehouse_location")
-    private String warehouse_location;
+    @JsonProperty("warehouse_location")
+    private Integer warehouse_location;
 
     @Column(name = "return_stock")
+    @JsonProperty("return_stock")
     private Integer return_stock;
 
     // Default Constructor
@@ -29,7 +35,7 @@ public class WarehouseEntity {
 
     // Parameterized Constructor
     public WarehouseEntity(Integer warehouse_id, Integer product_id, Integer stock_quantity,
-                    String warehouse_location, Integer return_stock) {
+                    Integer warehouse_location, Integer return_stock) {
         this.warehouse_id = warehouse_id;
         this.product_id = product_id;
         this.stock_quantity = stock_quantity;
@@ -63,11 +69,11 @@ public class WarehouseEntity {
         this.stock_quantity = stock_quantity;
     }
 
-    public String getwarehouse_location() {
+    public Integer getwarehouse_location() {
         return warehouse_location;
     }
 
-    public void setwarehouse_location(String warehouse_location) {
+    public void setwarehouse_location(Integer warehouse_location) {
         this.warehouse_location = warehouse_location;
     }
 
@@ -82,7 +88,7 @@ public class WarehouseEntity {
     @Override 
     public String toString() {
         return "WarehouseEntity{"
-                + "warehouse_id="+ warehouse_id
+                + "warehouse_id=" + warehouse_id
                 + ", product_id=" + product_id
                 + ", stock_quantity=" + stock_quantity
                 + ", warehouse_location=" + warehouse_location
