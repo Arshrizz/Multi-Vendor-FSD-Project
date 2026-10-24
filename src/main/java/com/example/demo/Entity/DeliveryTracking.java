@@ -1,88 +1,59 @@
 package com.example.demo.Entity;
 
-import java.time.LocalTime;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Entity
+@Table(name = "deliverytracking")
 public class DeliveryTracking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int assignment_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "assignment_id")
+    private UUID assignmentId; 
 
-    private int order_id;
-    private String assignment_status;
-    private String pickup_vendor;
-    private String pickup_user;
-    private LocalTime ETA;
+    @Column(name = "order_id", nullable = false)
+    private Long orderId;
 
-    // Default constructor
-    public DeliveryTracking() {
-    }
+    @Column(name = "assignment_status", nullable = false)
+    private String assignmentStatus = "pending";
 
-    // Parameterized constructor
-    public DeliveryTracking(int order_id, String assignment_status,
-                            String pickup_vendor, String pickup_user,
-                            LocalTime ETA) {
+    @Column(name = "pickup_vendor", nullable = false)
+    private String pickupVendor;
 
-        this.order_id = order_id;
-        this.assignment_status = assignment_status;
-        this.pickup_vendor = pickup_vendor;
-        this.pickup_user = pickup_user;
-        this.ETA = ETA;
+    @Column(name = "pickup_user", nullable = false)
+    private String pickupUser;
+
+    @Column(name = "eta")
+    private OffsetDateTime eta;
+
+    public DeliveryTracking() {}
+
+    public DeliveryTracking(Long orderId, String assignmentStatus, String pickupVendor, String pickupUser, OffsetDateTime eta) {
+        this.orderId = orderId;
+        this.assignmentStatus = assignmentStatus;
+        this.pickupVendor = pickupVendor;
+        this.pickupUser = pickupUser;
+        this.eta = eta;
     }
 
     // Getters and Setters
+    public UUID getAssignmentId() { return assignmentId; }
+    public void setAssignmentId(UUID assignmentId) { this.assignmentId = assignmentId; }
 
-    public int getAssignmentId() {
-        return assignment_id;
-    }
+    public Long getOrderId() { return orderId; }
+    public void setOrderId(Long orderId) { this.orderId = orderId; }
 
-    public void setAssignmentId(int assignment_id) {
-        this.assignment_id = assignment_id;
-    }
+    public String getAssignmentStatus() { return assignmentStatus; }
+    public void setAssignmentStatus(String assignmentStatus) { this.assignmentStatus = assignmentStatus; }
 
-    public int getOrderId() {
-        return order_id;
-    }
+    public String getPickupVendor() { return pickupVendor; }
+    public void setPickupVendor(String pickupVendor) { this.pickupVendor = pickupVendor; }
 
-    public void setOrderId(int order_id) {
-        this.order_id = order_id;
-    }
+    public String getPickupUser() { return pickupUser; }
+    public void setPickupUser(String pickupUser) { this.pickupUser = pickupUser; }
 
-    public String getAssignmentStatus() {
-        return assignment_status;
-    }
-
-    public void setAssignmentStatus(String assignment_status) {
-        this.assignment_status = assignment_status;
-    }
-
-    public String getPickupVendor() {
-        return pickup_vendor;
-    }
-
-    public void setPickupVendor(String pickup_vendor) {
-        this.pickup_vendor = pickup_vendor;
-    }
-
-    public String getPickupUser() {
-        return pickup_user;
-    }
-
-    public void setPickupUser(String pickup_user) {
-        this.pickup_user = pickup_user;
-    }
-
-    public LocalTime getETA() {
-        return ETA;
-    }
-
-    public void setETA(LocalTime ETA) {
-        this.ETA = ETA;
-    }
+    public OffsetDateTime getEta() { return eta; }
+    public void setEta(OffsetDateTime eta) { this.eta = eta; }
 }

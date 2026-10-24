@@ -1,97 +1,66 @@
 package com.example.demo.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
+@Table(name = "deliverypartner")
 public class DeliveryPartner {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int partner_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "partner_id")
+    private UUID partnerId;
 
-    private int user_id;
-    private String vehicle_no;
-    private float current_latitude;
-    private float current_longitude;
-    private String current_status;
-    private boolean is_available;
+    @Column(name = "user_id", nullable = false, unique = true)
+    private Long userId;
 
-    // Default constructor
-    public DeliveryPartner() {
-    }
+    @Column(name = "vehicle_no", nullable = false, unique = true)
+    private String vehicleNo;
 
-    // Parameterized constructor
-    public DeliveryPartner(int partner_id, int user_id, String vehicle_no,
-                           float current_latitude, float current_longitude,
-                           String current_status, boolean is_available) {
+    @Column(name = "current_latitude")
+    private BigDecimal currentLatitude;
 
-        this.partner_id = partner_id;
-        this.user_id = user_id;
-        this.vehicle_no = vehicle_no;
-        this.current_latitude = current_latitude;
-        this.current_longitude = current_longitude;
-        this.current_status = current_status;
-        this.is_available = is_available;
+    @Column(name = "current_longitude")
+    private BigDecimal currentLongitude;
+
+    @Column(name = "current_status", nullable = false)
+    private String currentStatus = "offline";
+
+    @Column(name = "is_available", nullable = false)
+    private boolean isAvailable = true;
+
+    public DeliveryPartner() {}
+
+    public DeliveryPartner(Long userId, String vehicleNo, BigDecimal currentLatitude, BigDecimal currentLongitude, String currentStatus, boolean isAvailable) {
+        this.userId = userId;
+        this.vehicleNo = vehicleNo;
+        this.currentLatitude = currentLatitude;
+        this.currentLongitude = currentLongitude;
+        this.currentStatus = currentStatus;
+        this.isAvailable = isAvailable;
     }
 
     // Getters and Setters
+    public UUID getPartnerId() { return partnerId; }
+    public void setPartnerId(UUID partnerId) { this.partnerId = partnerId; }
 
-    public int getPartnerId() {
-        return partner_id;
-    }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
-    public void setPartnerId(int partner_id) {
-        this.partner_id = partner_id;
-    }
+    public String getVehicleNo() { return vehicleNo; }
+    public void setVehicleNo(String vehicleNo) { this.vehicleNo = vehicleNo; }
 
-    public int getUserId() {
-        return user_id;
-    }
+    public BigDecimal getCurrentLatitude() { return currentLatitude; }
+    public void setCurrentLatitude(BigDecimal currentLatitude) { this.currentLatitude = currentLatitude; }
 
-    public void setUserId(int user_id) {
-        this.user_id = user_id;
-    }
+    public BigDecimal getCurrentLongitude() { return currentLongitude; }
+    public void setCurrentLongitude(BigDecimal currentLongitude) { this.currentLongitude = currentLongitude; }
 
-    public String getVehicleNo() {
-        return vehicle_no;
-    }
+    public String getCurrentStatus() { return currentStatus; }
+    public void setCurrentStatus(String currentStatus) { this.currentStatus = currentStatus; }
 
-    public void setVehicleNo(String vehicle_no) {
-        this.vehicle_no = vehicle_no;
-    }
-
-    public float getCurrentLatitude() {
-        return current_latitude;
-    }
-
-    public void setCurrentLatitude(float current_latitude) {
-        this.current_latitude = current_latitude;
-    }
-
-    public float getCurrentLongitude() {
-        return current_longitude;
-    }
-
-    public void setCurrentLongitude(float current_longitude) {
-        this.current_longitude = current_longitude;
-    }
-
-    public String getCurrentStatus() {
-        return current_status;
-    }
-
-    public void setCurrentStatus(String current_status) {
-        this.current_status = current_status;
-    }
-
-    public boolean isAvailable() {
-        return is_available;
-    }
-
-    public void setAvailable(boolean is_available) {
-        this.is_available = is_available;
-    }
+    public boolean isAvailable() { return isAvailable; }
+    public void setAvailable(boolean available) { isAvailable = available; }
 }
