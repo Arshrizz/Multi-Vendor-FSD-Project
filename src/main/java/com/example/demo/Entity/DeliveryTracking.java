@@ -1,6 +1,7 @@
 package com.example.demo.Entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -28,6 +29,17 @@ public class DeliveryTracking {
     @Column(name = "eta")
     private OffsetDateTime eta;
 
+    // --- ADDED FIELDS & RELATIONSHIPS ---
+    @ManyToOne
+    @JoinColumn(name = "partner_id")
+    private DeliveryPartner deliveryPartner;
+
+    @Column(name = "latitude")
+    private BigDecimal latitude;
+
+    @Column(name = "longitude")
+    private BigDecimal longitude;
+
     public DeliveryTracking() {}
 
     public DeliveryTracking(Long orderId, String assignmentStatus, String pickupVendor, String pickupUser, OffsetDateTime eta) {
@@ -38,7 +50,7 @@ public class DeliveryTracking {
         this.eta = eta;
     }
 
-    // Getters and Setters
+    // Existing Getters and Setters ...
     public UUID getAssignmentId() { return assignmentId; }
     public void setAssignmentId(UUID assignmentId) { this.assignmentId = assignmentId; }
 
@@ -56,4 +68,14 @@ public class DeliveryTracking {
 
     public OffsetDateTime getEta() { return eta; }
     public void setEta(OffsetDateTime eta) { this.eta = eta; }
+
+    // --- NEW GETTERS AND SETTERS ---
+    public DeliveryPartner getDeliveryPartner() { return deliveryPartner; }
+    public void setDeliveryPartner(DeliveryPartner deliveryPartner) { this.deliveryPartner = deliveryPartner; }
+
+    public BigDecimal getLatitude() { return latitude; }
+    public void setLatitude(BigDecimal latitude) { this.latitude = latitude; }
+
+    public BigDecimal getLongitude() { return longitude; }
+    public void setLongitude(BigDecimal longitude) { this.longitude = longitude; }
 }
