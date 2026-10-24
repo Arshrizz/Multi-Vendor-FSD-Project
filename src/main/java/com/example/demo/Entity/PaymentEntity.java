@@ -23,7 +23,7 @@ public class PaymentEntity {
 
     // One Payment is associated with One User
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
     @Column(name = "vendor_id")

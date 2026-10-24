@@ -14,7 +14,7 @@ public class OrderEntity {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
     @Column(name = "order_date")
