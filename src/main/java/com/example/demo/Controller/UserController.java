@@ -1,6 +1,6 @@
 package com.example.demo.Controller;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +67,7 @@ public class UserController {
     })
     @GetMapping("/users/{id}")
     public Optional<UserEntity> getUserById(
-            @PathVariable("id") Integer id) {
+            @PathVariable("id") Long id) {
 
         log.debug("Fetching user by ID: " + id);
 
@@ -95,7 +95,7 @@ public class UserController {
         log.debug("Adding new user: " + entity.getId());
 
         if (entity.getCreatedAt() == null) {
-            entity.setCreatedAt(LocalDateTime.now());
+            entity.setCreatedAt(OffsetDateTime.now());
         }
 
         if (entity.getStatus() == null) {
@@ -108,7 +108,7 @@ public class UserController {
 
         UserEntity savedUser = userRepository.save(entity);
 
-        log.info("End of Post request by -- " + entity.getId());
+        log.info("End of Post request by -- " + savedUser.getId());
 
         return savedUser;
     }
@@ -132,7 +132,7 @@ public class UserController {
 
         UserEntity updatedUser = userRepository.save(entity);
 
-        log.info("End of Put request by -- " + entity.getId());
+        log.info("End of Put request by -- " + updatedUser.getId());
 
         return updatedUser;
     }
@@ -150,7 +150,7 @@ public class UserController {
     })
     @PutMapping("/users/{id}")
     public String updateUserById(
-            @PathVariable("id") Integer id,
+            @PathVariable("id") Long id,
             @RequestBody UserEntity entity) {
 
         log.debug("Updating user by ID: " + id);
@@ -166,9 +166,15 @@ public class UserController {
             existing.setEmail(entity.getEmail());
             existing.setPhone(entity.getPhone());
             existing.setPasswordHash(entity.getPasswordHash());
-            existing.setRole(entity.getRole());
-            existing.setStatus(entity.getStatus());
-            existing.setCreatedAt(entity.getCreatedAt());
+            if (entity.getRole() != null) {
+                existing.setRole(entity.getRole());
+            }
+            if (entity.getStatus() != null) {
+                existing.setStatus(entity.getStatus());
+            }
+            if (entity.getCreatedAt() != null) {
+                existing.setCreatedAt(entity.getCreatedAt());
+            }
             existing.setBday(entity.getBday());
 
             userRepository.save(existing);
@@ -180,6 +186,15 @@ public class UserController {
         } else {
 
             entity.setId(id);
+            if (entity.getCreatedAt() == null) {
+                entity.setCreatedAt(OffsetDateTime.now());
+            }
+            if (entity.getStatus() == null) {
+                entity.setStatus(true);
+            }
+            if (entity.getRole() == null) {
+                entity.setRole("USER");
+            }
             userRepository.save(entity);
 
             log.info("New user " + id + " created");
@@ -201,7 +216,7 @@ public class UserController {
     })
     @PatchMapping("/users/{id}")
     public String updateUserByIdPatch(
-            @PathVariable("id") Integer id,
+            @PathVariable("id") Long id,
             @RequestBody UserEntity entity) {
 
         log.debug("Partially updating user by ID: " + id);
@@ -267,7 +282,7 @@ public class UserController {
     })
     @DeleteMapping("/users/{id}")
     public String removeUserById(
-            @PathVariable("id") Integer id) {
+            @PathVariable("id") Long id) {
 
         log.debug("Deleting user by ID: " + id);
 

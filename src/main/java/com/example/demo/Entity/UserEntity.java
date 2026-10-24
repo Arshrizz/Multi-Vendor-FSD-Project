@@ -1,16 +1,12 @@
 package com.example.demo.Entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "users", schema = "public")
@@ -19,45 +15,53 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer id;
+    private Long id;
 
-    @Column(name = "name")
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "email")
+    @NotBlank
+    @Email
+    @Size(max = 255)
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(name = "phone")
+    @NotBlank
+    @Size(max = 15)
+    @Column(name = "phone", nullable = false, unique = true, length = 15)
     private String phone;
 
-    @Column(name = "password_hash")
-    @JsonAlias("password_hash")
-    private String password_hash;
+    @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "password_hash", nullable = false, length = 255)
+    private String passwordHash;
 
-    @Column(name = "role")
+    @Column(name = "role", nullable = false, length = 50)
     private String role;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Boolean status;
 
-    @Column(name = "created_at")
-    @JsonAlias("created_at")
-    private LocalDateTime created_at;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
 
-    @Column(name = "bday")
+    @NotNull
+    @Column(name = "bday", nullable = false)
     private LocalDate bday;
 
     public UserEntity() {
     }
 
-    public UserEntity(Integer id, String name, String email) {
+    public UserEntity(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
     }
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -68,8 +72,8 @@ public class UserEntity {
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
 
-    public String getPasswordHash() { return password_hash; }
-    public void setPasswordHash(String password_hash) { this.password_hash = password_hash; }
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
@@ -77,8 +81,8 @@ public class UserEntity {
     public Boolean getStatus() { return status; }
     public void setStatus(Boolean status) { this.status = status; }
 
-    public LocalDateTime getCreatedAt() { return created_at; }
-    public void setCreatedAt(LocalDateTime created_at) { this.created_at = created_at; }
+    public OffsetDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(OffsetDateTime created_at) { this.createdAt = created_at; }
 
     public LocalDate getBday() { return bday; }
     public void setBday(LocalDate bday) { this.bday = bday; }
@@ -87,8 +91,8 @@ public class UserEntity {
     public String toString() {
         return "UserEntity{" + "id=" + id + ", name='" + name + '\'' +
                 ", email='" + email + '\'' + ", phone='" + phone + '\'' +
-                ", password_hash='" + password_hash + '\'' + ", role='" + role + '\'' +
-                ", is_active=" + status + ", created_at=" + created_at +
+                ", password_hash='" + passwordHash + '\'' + ", role='" + role + '\'' +
+                ", is_active=" + status + ", created_at=" + createdAt +
                 ", bday=" + bday + '}';
     }
 }
