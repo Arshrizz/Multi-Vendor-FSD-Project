@@ -47,7 +47,7 @@ public class CartController {
         }
     }
 
-    public record CartResponse(Long cartId, Integer userId, Integer totalItems, BigDecimal totalAmount,
+    public record CartResponse(Long cartId, Long userId, Integer totalItems, BigDecimal totalAmount,
                                List<CartItemResponse> items) {
         static CartResponse from(CartEntity c) {
             return new CartResponse(c.getCartId(), c.getUser().getId(), c.getTotalItems(), c.getTotalAmount(),
@@ -57,13 +57,13 @@ public class CartController {
 
     @GetMapping("/user/{userId}")
     @Transactional
-    public CartResponse getCart(@PathVariable Integer userId) {
+    public CartResponse getCart(@PathVariable Long userId) {
         return CartResponse.from(getOrCreateCart(userId));
     }
 
     @PostMapping("/user/{userId}/items")
     @Transactional
-    public CartResponse addItem(@PathVariable Integer userId, @RequestBody CartItemRequest request) {
+    public CartResponse addItem(@PathVariable Long userId, @RequestBody CartItemRequest request) {
         if (request.productId() == null || request.quantity() == null || request.quantity() <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "productId and a quantity > 0 are required");
         }
@@ -77,7 +77,7 @@ public class CartController {
 
     @PutMapping("/user/{userId}/items/{productId}")
     @Transactional
-    public CartResponse updateQuantity(@PathVariable Integer userId, @PathVariable Long productId,
+    public CartResponse updateQuantity(@PathVariable Long userId, @PathVariable Long productId,
                                        @RequestBody QuantityRequest request) {
         if (request.quantity() == null || request.quantity() < 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "quantity must be 0 or more");
@@ -98,7 +98,7 @@ public class CartController {
 
     @DeleteMapping("/user/{userId}/items/{productId}")
     @Transactional
-    public CartResponse removeItem(@PathVariable Integer userId, @PathVariable Long productId) {
+    public CartResponse removeItem(@PathVariable Long userId, @PathVariable Long productId) {
         CartEntity cart = getOrCreateCart(userId);
         cart.removeItem(productId);
         return CartResponse.from(cartRepository.save(cart));
@@ -106,7 +106,7 @@ public class CartController {
 
     @DeleteMapping("/user/{userId}")
     @Transactional
-    public CartResponse clearCart(@PathVariable Integer userId) {
+    public CartResponse clearCart(@PathVariable Long userId) {
         CartEntity cart = getOrCreateCart(userId);
         cart.clearItems();
         return CartResponse.from(cartRepository.save(cart));
@@ -116,7 +116,7 @@ public class CartController {
     @PostMapping("/user/{userId}/checkout")
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderResponse checkout(@PathVariable Integer userId) {
+    public OrderResponse checkout(@PathVariable Long userId) {
         CartEntity cart = getOrCreateCart(userId);
         if (cart.getCartItems().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cart is empty");
@@ -131,7 +131,7 @@ public class CartController {
         return OrderResponse.from(saved);
     }
 
-    private CartEntity getOrCreateCart(Integer userId) {
+    private CartEntity getOrCreateCart(Long userId) {
         return cartRepository.findByUser_Id(userId).orElseGet(() -> {
             UserEntity user = userRepository.findById(userId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,

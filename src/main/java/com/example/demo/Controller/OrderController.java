@@ -32,7 +32,7 @@ public class OrderController {
         }
     }
 
-    public record OrderResponse(Long orderId, Integer userId, LocalDateTime orderDate, String status,
+    public record OrderResponse(Long orderId, Long userId, LocalDateTime orderDate, String status,
                                 Integer totalItems, BigDecimal totalAmount, List<OrderItemResponse> items) {
         public static OrderResponse from(OrderEntity o) {
             return new OrderResponse(o.getOrderId(), o.getUser().getId(), o.getOrderDate(), o.getStatus(),
