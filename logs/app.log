@@ -6544,3 +6544,47 @@ Caused by: org.hibernate.MappingException: A '@JoinColumn' references a column n
 2026-10-24 13:30:07 - INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-10-24 13:30:07 - INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2026-10-24 13:30:09 - INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-10-26 00:17:57 - INFO  [main] com.example.demo.DemoApplication - Starting DemoApplication using Java 25.0.4.1 with PID 3304 (C:\Arsh coding\FSD with Java\Multi Vendor Project\target\classes started by Ahmed in C:\Arsh coding\FSD with Java\Multi Vendor Project)
+2026-10-26 00:17:57 - INFO  [main] com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-10-26 00:17:58 - INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-26 00:17:59 - INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 122 ms. Found 14 JPA repository interfaces.
+2026-10-26 00:17:59 - INFO  [main] org.springframework.boot.tomcat.TomcatWebServer - Tomcat initialized with port 3000 (http)
+2026-10-26 00:17:59 - INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-10-26 00:17:59 - INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-10-26 00:17:59 - INFO  [main] org.springframework.boot.web.context.servlet.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2819 ms
+2026-10-26 00:18:00 - INFO  [main] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-26 00:18:00 - INFO  [main] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-10-26 00:18:01 - INFO  [main] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-26 00:18:01 - INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-10-26 00:18:03 - INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7c5ac0
+2026-10-26 00:18:03 - INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-10-26 00:18:03 - WARN  [main] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-10-26 00:18:04 - INFO  [main] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres?sslmode=require]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.6
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-26 00:18:06 - INFO  [main] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-26 00:18:08 - INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-26 00:18:08 - INFO  [main] org.springframework.data.jpa.repository.query.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-26 00:18:09 - WARN  [main] org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-10-26 00:18:10 - INFO  [main] org.springframework.boot.tomcat.TomcatWebServer - Tomcat started on port 3000 (http) with context path '/'
+2026-10-26 00:18:10 - INFO  [main] com.example.demo.DemoApplication - Started DemoApplication in 14.107 seconds (process running for 15.421)
+2026-10-26 00:18:26 - INFO  [http-nio-3000-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-26 00:18:26 - INFO  [http-nio-3000-exec-1] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-10-26 00:18:26 - INFO  [http-nio-3000-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+2026-10-26 00:18:29 - INFO  [http-nio-3000-exec-9] org.springdoc.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 1704 ms
+2026-10-26 00:20:20 - INFO  [http-nio-3000-exec-2] com.example.demo.Controller.UserController - End of Get request by -- [UserEntity{id=1, name='Manas Patel', email='manas@gmail.com', phone='9876543210', password_hash='hashed_password', role='USER', is_active=true, created_at=2026-09-24T08:35:51.499693Z, bday=2005-05-15}, UserEntity{id=2, name='Arsh Siddiqui', email='arsh@gmail.com', phone='8850638291', password_hash='hashed_password', role='USER', is_active=true, created_at=2026-09-24T08:37:12.481312Z, bday=2005-10-08}, UserEntity{id=3, name='Ved Patil', email='ved@gmail.com', phone='7715028637', password_hash='hashed_password', role='USER', is_active=true, created_at=2026-10-03T15:07:33.173232Z, bday=2005-12-18}, UserEntity{id=4, name='Test User', email='test@example.com', phone='9999999999', password_hash='test-hash', role='USER', is_active=true, created_at=2026-10-23T17:52:41.456958Z, bday=2000-01-01}]
+2026-10-26 00:26:32 - INFO  [http-nio-3000-exec-7] com.example.demo.Controller.UserController - End of Post request by -- 5
+2026-10-26 00:51:42 - INFO  [SpringApplicationShutdownHook] org.springframework.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-26 00:51:42 - INFO  [tomcat-shutdown] org.springframework.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-10-26 00:51:42 - INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-26 00:51:42 - INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-10-26 00:51:43 - INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
