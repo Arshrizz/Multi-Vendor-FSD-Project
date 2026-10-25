@@ -1,13 +1,16 @@
+
 package com.example.demo.Controller;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,36 +21,50 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Entity.FeedbackEntity;
 import com.example.demo.Repository.FeedbackRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
-@RequestMapping("/api/feedback")
+@RequestMapping("/feedback")
 public class FeedbackController {
 
-    @Autowired
-    private FeedbackRepository feedbackRepository;
+    private static final Logger logger =
+            LoggerFactory.getLogger(FeedbackController.class);
 
-    // Create feedback
-    @PostMapping
-    public ResponseEntity<FeedbackEntity> createFeedback(
-            @RequestBody FeedbackEntity feedback) {
+    private final FeedbackRepository feedbackRepository;
 
-        FeedbackEntity savedFeedback =
-                feedbackRepository.save(feedback);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedFeedback);
+    public FeedbackController(FeedbackRepository feedbackRepository) {
+        this.feedbackRepository = feedbackRepository;
     }
 
     // Get all feedback
+    @Operation(summary = "Get all feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Feedback retrieved successfully")
+    })
     @GetMapping
     public ResponseEntity<List<FeedbackEntity>> getAllFeedback() {
+        logger.info("Fetching all feedback");
 
-        return ResponseEntity.ok(feedbackRepository.findAll());
+        List<FeedbackEntity> feedbackList =
+                feedbackRepository.findAll();
+
+        return ResponseEntity.ok(feedbackList);
     }
 
     // Get feedback by ID
+    @Operation(summary = "Get feedback by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Feedback found"),
+            @ApiResponse(responseCode = "404",
+                    description = "Feedback not found")
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<FeedbackEntity> getFeedbackById(
-            @PathVariable Long id) {
+    public ResponseEntity<?> getFeedbackById(@PathVariable Long id) {
+        logger.info("Fetching feedback with ID: {}", id);
 
         Optional<FeedbackEntity> feedback =
                 feedbackRepository.findById(id);
@@ -56,49 +73,169 @@ public class FeedbackController {
             return ResponseEntity.ok(feedback.get());
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Feedback not found with ID: " + id);
     }
 
-    // Update feedback
+    // Add feedback
+    @Operation(summary = "Add new feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Feedback created successfully"),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid feedback data")
+    })
+    @PostMapping
+    public ResponseEntity<?> addFeedback(
+            @RequestBody FeedbackEntity feedback) {
+
+        logger.info("Adding new feedback");
+
+        if (feedback == null || feedback.getFeedbackId() == null) {
+            return ResponseEntity.badRequest()
+                    .body("Feedback ID is required");
+        }
+
+        if (feedbackRepository.existsById(feedback.getFeedbackId())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Feedback ID already exists");
+        }
+
+        FeedbackEntity savedFeedback =
+                feedbackRepository.save(feedback);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(savedFeedback);
+    }
+
+    // Update feedback using the ID in the request body
+    @Operation(summary = "Update feedback")
+    @PutMapping
+    public ResponseEntity<?> updateFeedback(
+            @RequestBody FeedbackEntity feedback) {
+
+        if (feedback == null || feedback.getFeedbackId() == null) {
+            return ResponseEntity.badRequest()
+                    .body("Feedback ID is required");
+        }
+
+        Long id = feedback.getFeedbackId();
+
+        if (!feedbackRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Feedback not found with ID: " + id);
+        }
+
+        FeedbackEntity updatedFeedback =
+                feedbackRepository.save(feedback);
+
+        logger.info("Updated feedback with ID: {}", id);
+
+        return ResponseEntity.ok(updatedFeedback);
+    }
+
+    // Update feedback using the ID in the URL
+    @Operation(summary = "Update feedback by ID")
     @PutMapping("/{id}")
-    public ResponseEntity<FeedbackEntity> updateFeedback(
+    public ResponseEntity<?> updateFeedbackById(
             @PathVariable Long id,
-            @RequestBody FeedbackEntity updatedFeedback) {
+            @RequestBody FeedbackEntity feedback) {
+
+        Optional<FeedbackEntity> existingFeedback =
+                feedbackRepository.findById(id);
+
+        if (existingFeedback.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Feedback not found with ID: " + id);
+        }
+
+        feedback.setFeedbackId(id);
+
+        FeedbackEntity updatedFeedback =
+                feedbackRepository.save(feedback);
+
+        logger.info("Updated feedback with ID: {}", id);
+
+        return ResponseEntity.ok(updatedFeedback);
+    }
+
+    // Partially update feedback
+    @Operation(summary = "Partially update feedback")
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchFeedback(
+            @PathVariable Long id,
+            @RequestBody FeedbackEntity feedback) {
 
         Optional<FeedbackEntity> optionalFeedback =
                 feedbackRepository.findById(id);
 
         if (optionalFeedback.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Feedback not found with ID: " + id);
         }
 
         FeedbackEntity existingFeedback = optionalFeedback.get();
 
-        existingFeedback.setUserId(updatedFeedback.getUserId());
-        existingFeedback.setOrderId(updatedFeedback.getOrderId());
-        existingFeedback.setPartnerId(updatedFeedback.getPartnerId());
-        existingFeedback.setRating(updatedFeedback.getRating());
-        existingFeedback.setComment(updatedFeedback.getComment());
-        existingFeedback.setFeedbackCategory(
-                updatedFeedback.getFeedbackCategory());
+        if (feedback.getUserId() != null) {
+            existingFeedback.setUserId(feedback.getUserId());
+        }
 
-        FeedbackEntity savedFeedback =
+        if (feedback.getOrderId() != null) {
+            existingFeedback.setOrderId(feedback.getOrderId());
+        }
+
+        if (feedback.getPartnerId() != null) {
+            existingFeedback.setPartnerId(feedback.getPartnerId());
+        }
+
+        if (feedback.getRating() != null) {
+            existingFeedback.setRating(feedback.getRating());
+        }
+
+        if (feedback.getComment() != null) {
+            existingFeedback.setComment(feedback.getComment());
+        }
+
+        if (feedback.getFeedbackCategory() != null) {
+            existingFeedback.setFeedbackCategory(
+                    feedback.getFeedbackCategory());
+        }
+
+        FeedbackEntity updatedFeedback =
                 feedbackRepository.save(existingFeedback);
 
-        return ResponseEntity.ok(savedFeedback);
+        logger.info("Partially updated feedback with ID: {}", id);
+
+        return ResponseEntity.ok(updatedFeedback);
     }
 
     // Delete feedback
+    @Operation(summary = "Delete feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Feedback deleted successfully"),
+            @ApiResponse(responseCode = "404",
+                    description = "Feedback not found")
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFeedback(
-            @PathVariable Long id) {
+    public ResponseEntity<?> deleteFeedback(@PathVariable Long id) {
+        logger.info("Deleting feedback with ID: {}", id);
 
         if (!feedbackRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Feedback not found with ID: " + id);
         }
 
         feedbackRepository.deleteById(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    // Test endpoint
+    @Operation(summary = "Test feedback controller")
+    @GetMapping("/test")
+    public ResponseEntity<String> testFeedback() {
+        return ResponseEntity.ok(
+                "Feedback Controller is working successfully!");
     }
 }
