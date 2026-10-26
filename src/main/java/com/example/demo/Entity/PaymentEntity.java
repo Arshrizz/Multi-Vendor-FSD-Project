@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
@@ -21,10 +19,14 @@ public class PaymentEntity {
     @Column(name = "payment_id")
     private Long paymentId;
 
-    // One Payment is associated with One User
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserEntity user;
+    /*
+     * // One Payment is associated with One User
+     * 
+     * @OneToOne
+     * 
+     * @JoinColumn(name = "user_id", referencedColumnName = "id")
+     * private UserEntity user;
+     */
 
     @Column(name = "vendor_id")
     private Long vendorId;
@@ -41,9 +43,12 @@ public class PaymentEntity {
     @Column(name = "payment_time")
     private LocalTime paymentTime;
 
-    // Cart has payment_id, so Cart is the owning side
-    @OneToOne(mappedBy = "payment")
-    private CartEntity cart;
+    /*
+     * // Cart has payment_id, so Cart is the owning side
+     * 
+     * @OneToOne(mappedBy = "payment")
+     * private CartEntity cart;
+     */
 
     // Getters and Setters
 
@@ -55,13 +60,15 @@ public class PaymentEntity {
         this.paymentId = paymentId;
     }
 
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
+    /*
+     * public UserEntity getUser() {
+     * return user;
+     * }
+     * 
+     * public void setUser(UserEntity user) {
+     * this.user = user;
+     * }
+     */
 
     public Long getVendorId() {
         return vendorId;
@@ -103,11 +110,13 @@ public class PaymentEntity {
         this.paymentTime = paymentTime;
     }
 
-    public CartEntity getCart() {
-        return cart;
-    }
-
-    public void setCart(CartEntity cart) {
-        this.cart = cart;
-    }
+    /*
+     * public CartEntity getCart() {
+     * return cart;
+     * }
+     * 
+     * public void setCart(CartEntity cart) {
+     * this.cart = cart;
+     * }
+     */
 }
