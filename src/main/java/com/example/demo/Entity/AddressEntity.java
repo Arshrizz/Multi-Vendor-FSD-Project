@@ -1,9 +1,11 @@
 package com.example.demo.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,7 +17,7 @@ public class AddressEntity {
     @Column(name = "address_id")
     private Integer address_id;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = true)
     private Integer user_id;
 
     @Column(name = "type")
@@ -35,6 +37,11 @@ public class AddressEntity {
 
     @Column(name = "pincode")
     private String pincode;
+
+    //One-to-One relation with warehouses
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
+    private WarehouseEntity warehouse;
 
     public AddressEntity() {
     }
@@ -101,5 +108,13 @@ public class AddressEntity {
 
     public void setPincode(String pincode) {
         this.pincode = pincode;
+    }
+
+    public WarehouseEntity getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(WarehouseEntity warehouse) {
+        this.warehouse = warehouse;
     }
 }

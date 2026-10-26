@@ -1,11 +1,9 @@
 package com.example.demo.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "vendor")
@@ -19,8 +17,17 @@ public class VendorEntity {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "warehouse_id")
-    private Integer warehouseId;
+    //Many-to-Many relation with warehouses
+    @ManyToMany
+    @JoinTable(
+        name = "vendor_warehouse",
+        joinColumns = @JoinColumn(name = "vendor_id"),
+        inverseJoinColumns = @JoinColumn(name = "warehouse_id"),
+        foreignKey = @ForeignKey(name = "fk_vw_vendor"),
+        inverseForeignKey = @ForeignKey(name = "fk_vw_warehouse")
+    )
+    @JsonIgnore
+    private Set<WarehouseEntity> warehouses = new HashSet<>();
 
     @Column(name = "assignment_id")
     private Integer assignmentId;
@@ -46,12 +53,12 @@ public class VendorEntity {
         this.userId = userId;
     }
 
-    public Integer getWarehouseId() {
-        return warehouseId;
+    public Set<WarehouseEntity> getWarehouses() {
+        return warehouses;
     }
 
-    public void setWarehouseId(Integer warehouseId) {
-        this.warehouseId = warehouseId;
+    public void setWarehouses(Set<WarehouseEntity> warehouses) {
+        this.warehouses = warehouses;
     }
 
     public Integer getAssignmentId() {

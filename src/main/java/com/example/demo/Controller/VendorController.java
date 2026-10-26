@@ -112,10 +112,6 @@ public class VendorController {
                 existingVendor.setUserId(vendor.getUserId());
             }
 
-            if (vendor.getWarehouseId() != null) {
-                existingVendor.setWarehouseId(vendor.getWarehouseId());
-            }
-
             if (vendor.getAssignmentId() != null) {
                 existingVendor.setAssignmentId(vendor.getAssignmentId());
             }
