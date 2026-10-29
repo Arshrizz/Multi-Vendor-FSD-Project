@@ -149,9 +149,8 @@ public class WarehouseController {
             WarehouseEntity existing = tempWarehouse.get();
 
             existing.setwarehouse_id(id);
-            existing.setproduct_id(entity.getproduct_id());
+            existing.setAddress(entity.getAddress());
             existing.setstock_quantity(entity.getstock_quantity());
-            existing.setwarehouse_location(entity.getwarehouse_location());
             existing.setreturn_stock(entity.getreturn_stock());
 
             warehouseRepository.save(existing);
@@ -195,16 +194,12 @@ public class WarehouseController {
 
             WarehouseEntity existingWarehouse = tempWarehouse.get();
 
-            if (entity.getproduct_id() != null) {
-                existingWarehouse.setproduct_id(entity.getproduct_id());
+            if (entity.getAddress() != null) {
+                existingWarehouse.setAddress(entity.getAddress());
             }
 
             if (entity.getstock_quantity() != null) {
                 existingWarehouse.setstock_quantity(entity.getstock_quantity());
-            }
-
-            if (entity.getwarehouse_location() != null) {
-                existingWarehouse.setwarehouse_location(entity.getwarehouse_location());
             }
 
             if (entity.getreturn_stock() != null) {

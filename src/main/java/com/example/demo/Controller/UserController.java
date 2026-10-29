@@ -271,30 +271,32 @@ public class UserController {
         }
     }
 
-    // DELETE USER
+    // DELETE USER (SOFT DELETE)
     @Operation(
-            summary = "Delete a user by ID",
-            description = "Remove a user record from the database by their ID."
+            summary = "Soft delete a user by ID",
+            description = "Deactivate a user by setting status to false."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+        @ApiResponse(responseCode = "200", description = "User deactivated successfully"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
     @DeleteMapping("/users/{id}")
     public String removeUserById(
             @PathVariable("id") Long id) {
 
-        log.debug("Deleting user by ID: " + id);
+        log.debug("Soft deleting user by ID: " + id);
 
         Optional<UserEntity> user = userRepository.findById(id);
 
         if (user.isPresent()) {
 
-            userRepository.deleteById(id);
+            UserEntity existing = user.get();
+            existing.setStatus(false);
+            userRepository.save(existing);
 
-            log.info("User " + id + " deleted");
+            log.info("User " + id + " deactivated");
 
-            return "User with ID " + id + " has been deleted.";
+            return "User with ID " + id + " has been deactivated.";
 
         } else {
 

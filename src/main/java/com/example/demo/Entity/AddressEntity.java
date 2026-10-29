@@ -1,13 +1,21 @@
 package com.example.demo.Entity;
+<<<<<<< HEAD
 
+=======
+import com.fasterxml.jackson.annotation.JsonIgnore;
+>>>>>>> origin/main
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+<<<<<<< HEAD
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+=======
+import jakarta.persistence.OneToOne;
+>>>>>>> origin/main
 import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,7 +29,7 @@ public class AddressEntity {
     @Column(name = "address_id")
     private Integer address_id;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = true)
     private Integer user_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,6 +59,11 @@ public class AddressEntity {
 
     @Column(name = "pincode")
     private String pincode;
+
+    //One-to-One relation with warehouses
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
+    private WarehouseEntity warehouse;
 
     public AddressEntity() {
     }
@@ -125,5 +138,13 @@ public class AddressEntity {
 
     public void setPincode(String pincode) {
         this.pincode = pincode;
+    }
+
+    public WarehouseEntity getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(WarehouseEntity warehouse) {
+        this.warehouse = warehouse;
     }
 }

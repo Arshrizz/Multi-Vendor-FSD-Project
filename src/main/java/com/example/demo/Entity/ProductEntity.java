@@ -1,7 +1,10 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -30,6 +33,11 @@ public class ProductEntity {
 
     @Column(name = "status")
     private String status;
+
+    // Many-to-Many relation with warehouses
+    @ManyToMany(mappedBy = "products")
+    @JsonIgnore
+    private Set<WarehouseEntity> warehouses = new HashSet<>();
 
     public Long getProductId() {
         return productId;
@@ -85,5 +93,13 @@ public class ProductEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Set<WarehouseEntity> getWarehouses() {
+        return warehouses;
+    }
+
+    public void setWarehouses(Set<WarehouseEntity> warehouses) {
+        this.warehouses = warehouses;
     }
 }
