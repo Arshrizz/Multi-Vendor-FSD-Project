@@ -1,13 +1,19 @@
 package com.example.demo.Entity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name = "Address")
+@Table(name = "address")
 public class AddressEntity {
 
     @Id
@@ -17,6 +23,16 @@ public class AddressEntity {
 
     @Column(name = "user_id")
     private Integer user_id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "user_id",
+        referencedColumnName = "user_id",
+        insertable = false,
+        updatable = false
+    )
+    @JsonIgnore
+    private UserEntity user;
 
     @Column(name = "type")
     private String type;
@@ -55,6 +71,14 @@ public class AddressEntity {
         this.user_id = user_id;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
     public String getType() {
         return type;
     }
@@ -71,12 +95,12 @@ public class AddressEntity {
         this.building_name = building_name;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getCity() {
         return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getLandmark() {
