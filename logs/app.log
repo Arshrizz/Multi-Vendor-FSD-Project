@@ -7788,3 +7788,11 @@ org.postgresql.util.PSQLException: ERROR: insert or update on table "product" vi
 2026-10-29 17:56:56 - INFO  [http-nio-3000-exec-2] com.example.demo.Controller.ProductController - End of Get request by -- Optional.empty
 2026-10-29 17:56:57 - INFO  [http-nio-3000-exec-3] com.example.demo.Controller.ProductController - End of Get request by -- Optional.empty
 2026-10-29 17:56:57 - INFO  [http-nio-3000-exec-4] com.example.demo.Controller.ProductController - End of Get request by -- Optional.empty
+2026-10-29 18:02:36 - INFO  [http-nio-3000-exec-6] com.example.demo.Controller.ProductController - End of Get request by -- [com.example.demo.Entity.ProductEntity@17401e43, com.example.demo.Entity.ProductEntity@153b0242, com.example.demo.Entity.ProductEntity@4055ad3f, com.example.demo.Entity.ProductEntity@4bc4cc5b]
+2026-10-29 18:02:36 - WARN  [http-nio-3000-exec-6] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (501) exceeds the maximum allowed (500, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2026-10-29 18:02:36 - WARN  [http-nio-3000-exec-6] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (501) exceeds the maximum allowed (500, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2026-10-29 18:04:28 - INFO  [SpringApplicationShutdownHook] org.springframework.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-29 18:04:28 - INFO  [tomcat-shutdown] org.springframework.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-10-29 18:04:28 - INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-29 18:04:28 - INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-10-29 18:04:31 - INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
