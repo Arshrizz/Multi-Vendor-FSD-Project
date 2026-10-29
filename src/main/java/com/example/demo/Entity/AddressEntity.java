@@ -1,14 +1,27 @@
 package com.example.demo.Entity;
+<<<<<<< HEAD
 
+=======
+import com.fasterxml.jackson.annotation.JsonIgnore;
+>>>>>>> origin/main
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+<<<<<<< HEAD
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+=======
+import jakarta.persistence.OneToOne;
+>>>>>>> origin/main
 import jakarta.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name = "Address")
+@Table(name = "address")
 public class AddressEntity {
 
     @Id
@@ -16,8 +29,18 @@ public class AddressEntity {
     @Column(name = "address_id")
     private Integer address_id;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = true)
     private Integer user_id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "user_id",
+        referencedColumnName = "user_id",
+        insertable = false,
+        updatable = false
+    )
+    @JsonIgnore
+    private UserEntity user;
 
     @Column(name = "type")
     private String type;
@@ -36,6 +59,11 @@ public class AddressEntity {
 
     @Column(name = "pincode")
     private String pincode;
+
+    //One-to-One relation with warehouses
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
+    private WarehouseEntity warehouse;
 
     public AddressEntity() {
     }
@@ -56,6 +84,14 @@ public class AddressEntity {
         this.user_id = user_id;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
     public String getType() {
         return type;
     }
@@ -72,12 +108,12 @@ public class AddressEntity {
         this.building_name = building_name;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getCity() {
         return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getLandmark() {
@@ -102,5 +138,13 @@ public class AddressEntity {
 
     public void setPincode(String pincode) {
         this.pincode = pincode;
+    }
+
+    public WarehouseEntity getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(WarehouseEntity warehouse) {
+        this.warehouse = warehouse;
     }
 }

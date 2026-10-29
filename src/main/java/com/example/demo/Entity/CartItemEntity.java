@@ -1,7 +1,7 @@
 package com.example.demo.Entity;
 
-import com.example.demo.Entity.ProductEntity;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cart_item")
@@ -23,9 +23,25 @@ public class CartItemEntity {
     @Column(name = "quantity")
     private Integer quantity;
 
+    // Default constructor
     public CartItemEntity() {
     }
 
+    public CartItemEntity(CartEntity cart, ProductEntity product, Integer quantity) {
+        this.cart = cart;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    // Price is read live from the product (cart prices are not frozen, unlike order items)
+    public BigDecimal getSubtotal() {
+        if (product == null || product.getPrice() == null || quantity == null) {
+            return BigDecimal.ZERO;
+        }
+        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
+    }
+
+    // Getters and Setters
     public Long getCartItemId() {
         return cartItemId;
     }
@@ -56,5 +72,15 @@ public class CartItemEntity {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "CartItemEntity{"
+                + "cartItemId=" + cartItemId
+                + ", cartId=" + (cart != null ? cart.getCartId() : null)
+                + ", productId=" + (product != null ? product.getProductId() : null)
+                + ", quantity=" + quantity
+                + '}';
     }
 }

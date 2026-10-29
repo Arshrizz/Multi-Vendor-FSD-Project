@@ -1,56 +1,41 @@
 package com.example.demo.Entity;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "deliverytracking")
+@Table(name = "delivery_tracking")
 public class DeliveryTracking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "assignment_id")
-    private UUID assignmentId; 
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "assignment_id", updatable = false, nullable = false)
+    private UUID assignmentId;
 
-    @Column(name = "order_id", nullable = false)
+    @Column(name = "order_id")
     private Long orderId;
 
-    @Column(name = "assignment_status", nullable = false)
-    private String assignmentStatus = "pending";
+    @Column(name = "assignment_status")
+    private String assignmentStatus;
 
-    @Column(name = "pickup_vendor", nullable = false)
+    @Column(name = "pickup_vendor")
     private String pickupVendor;
 
-    @Column(name = "pickup_user", nullable = false)
+    @Column(name = "pickup_user")
     private String pickupUser;
 
     @Column(name = "eta")
-    private OffsetDateTime eta;
+    private String eta;
 
-    // --- ADDED FIELDS & RELATIONSHIPS ---
-    @ManyToOne
-    @JoinColumn(name = "partner_id")
+    // Many-to-One Relationship with DeliveryPartner
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "partner_id", nullable = false)
     private DeliveryPartner deliveryPartner;
 
-    @Column(name = "latitude")
-    private BigDecimal latitude;
-
-    @Column(name = "longitude")
-    private BigDecimal longitude;
-
+    // Constructors
     public DeliveryTracking() {}
 
-    public DeliveryTracking(Long orderId, String assignmentStatus, String pickupVendor, String pickupUser, OffsetDateTime eta) {
-        this.orderId = orderId;
-        this.assignmentStatus = assignmentStatus;
-        this.pickupVendor = pickupVendor;
-        this.pickupUser = pickupUser;
-        this.eta = eta;
-    }
-
-    // Existing Getters and Setters ...
+    // Getters and Setters
     public UUID getAssignmentId() { return assignmentId; }
     public void setAssignmentId(UUID assignmentId) { this.assignmentId = assignmentId; }
 
@@ -66,16 +51,9 @@ public class DeliveryTracking {
     public String getPickupUser() { return pickupUser; }
     public void setPickupUser(String pickupUser) { this.pickupUser = pickupUser; }
 
-    public OffsetDateTime getEta() { return eta; }
-    public void setEta(OffsetDateTime eta) { this.eta = eta; }
+    public String getEta() { return eta; }
+    public void setEta(String eta) { this.eta = eta; }
 
-    // --- NEW GETTERS AND SETTERS ---
     public DeliveryPartner getDeliveryPartner() { return deliveryPartner; }
     public void setDeliveryPartner(DeliveryPartner deliveryPartner) { this.deliveryPartner = deliveryPartner; }
-
-    public BigDecimal getLatitude() { return latitude; }
-    public void setLatitude(BigDecimal latitude) { this.latitude = latitude; }
-
-    public BigDecimal getLongitude() { return longitude; }
-    public void setLongitude(BigDecimal longitude) { this.longitude = longitude; }
 }
