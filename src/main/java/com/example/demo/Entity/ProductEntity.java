@@ -1,6 +1,7 @@
 package com.example.demo.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -19,8 +20,9 @@ public class ProductEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @Column(name = "vendor_id")
-    private Long vendorId;
+    @ManyToOne
+    @JoinColumn(name = "vendor_id")
+    private VendorEntity vendor;
 
     @Column(name = "product_name")
     private String productName;
@@ -55,12 +57,29 @@ public class ProductEntity {
         this.category = category;
     }
 
-    public Long getVendorId() {
-        return vendorId;
+    public VendorEntity getVendor() {
+        return vendor;
     }
 
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
+    public void setVendor(VendorEntity vendor) {
+        this.vendor = vendor;
+    }
+
+    @JsonProperty("vendorId")
+    public Integer getVendorId() {
+        return vendor != null ? vendor.getVendorId() : null;
+    }
+
+    @JsonProperty("vendorId")
+    public void setVendorId(Integer vendorId) {
+        if (vendorId != null) {
+            if (this.vendor == null) {
+                this.vendor = new VendorEntity();
+            }
+            this.vendor.setVendorId(vendorId);
+        } else {
+            this.vendor = null;
+        }
     }
 
     public String getProductName() {

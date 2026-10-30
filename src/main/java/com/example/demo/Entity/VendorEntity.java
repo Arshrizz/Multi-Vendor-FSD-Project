@@ -3,6 +3,7 @@ package com.example.demo.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,7 +18,12 @@ public class VendorEntity {
     @Column(name = "user_id")
     private Integer userId;
 
-    //Many-to-Many relation with warehouses
+    // One-to-Many relation with products (Vendor sells Products)
+    @OneToMany(mappedBy = "vendor")
+    @JsonIgnore
+    private List<ProductEntity> products;
+
+    // Many-to-Many relation with warehouses
     @ManyToMany
     @JoinTable(
         name = "vendor_warehouse",
@@ -51,6 +57,14 @@ public class VendorEntity {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public List<ProductEntity> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 
     public Set<WarehouseEntity> getWarehouses() {
